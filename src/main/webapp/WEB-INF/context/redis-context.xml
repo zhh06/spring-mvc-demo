@@ -14,8 +14,8 @@
         <property name="testOnReturn" value="true" />
     </bean>
 
-    <!-- 配置Cluster -->
-    <bean id="redisClusterConfiguration"
+    <!-- RedisCluster ymath-redis-cluster -->
+    <bean id="redisClusterConfiguration1"
           class="org.springframework.data.redis.connection.RedisClusterConfiguration">
         <property name="maxRedirects" value="3"/>
         <!-- 节点配置 -->

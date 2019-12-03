@@ -1,23 +1,34 @@
 package com.demo.controller;
 
-import com.demo.utils.RedisUtilsFirst;
-import com.demo.utils.RedisUtilsSecond;
+import com.demo.utils.RedisUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
-
 @Controller
 @RequestMapping(value = "/redis")
 public class RedisController {
 
-    @Resource
-    private RedisUtilsFirst<String> redisUtilsFirst;
+    private RedisUtils<String> redisUtilsFirst;
 
-    @Resource
-    private RedisUtilsSecond<String> redisUtilsSecond;
+    private RedisUtils<String> redisUtilsSecond;
+
+    public void setRedisUtils(RedisUtils<String> redisUtils) {
+        this.redisUtilsFirst = redisUtils;
+    }
+
+    public RedisUtils<String> getRedisUtilsFirst() {
+        return this.redisUtilsFirst;
+    }
+
+    public void setRedisUtilsSecond(RedisUtils<String> redisUtilsSecond) {
+        this.redisUtilsSecond = redisUtilsSecond;
+    }
+
+    public RedisUtils<String> getRedisUtilsSecond() {
+        return this.redisUtilsSecond;
+    }
 
     @RequestMapping(value = "/set1")
     @ResponseBody
