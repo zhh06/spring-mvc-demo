@@ -16,13 +16,13 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-@Component
-public class RedisUtils<T> {
+@Component(value = "redisUtilsFirst")
+public class RedisUtilsFirst<T> {
 
     private static final String REDIS_KEY_PREFIX = "YNote::%s";
 
     @Resource
-    private RedisTemplate<String, T> redisTemplate;
+    private RedisTemplate<String, T> redisTemplateFrist;
 
     /**
      * 读取缓存
@@ -33,7 +33,7 @@ public class RedisUtils<T> {
     public T get(final String key) {
         String wholeKey = getKey(key);
         try {
-            ValueOperations<String, T> operations = redisTemplate.opsForValue();
+            ValueOperations<String, T> operations = redisTemplateFrist.opsForValue();
             T data = operations.get(wholeKey);
             log.debug("get redis::key:{} value::{}", wholeKey, data);
             return data;
@@ -53,7 +53,7 @@ public class RedisUtils<T> {
     public boolean set(final String key, T value) {
         String wholeKey = getKey(key);
         try {
-            ValueOperations<String, T> operations = redisTemplate.opsForValue();
+            ValueOperations<String, T> operations = redisTemplateFrist.opsForValue();
             operations.set(wholeKey, value);
             log.debug("set redis::key:{} value::{}", wholeKey, operations.get(wholeKey));
             return true;
@@ -77,7 +77,7 @@ public class RedisUtils<T> {
         }
         String wholeKey = getKey(key);
         try {
-            ValueOperations<String, T> operations = redisTemplate.opsForValue();
+            ValueOperations<String, T> operations = redisTemplateFrist.opsForValue();
             operations.set(wholeKey, value, seconds, TimeUnit.SECONDS);
             log.debug("set redis::key:{} value::{}", wholeKey, operations.get(wholeKey));
             return true;
@@ -96,7 +96,7 @@ public class RedisUtils<T> {
     public Boolean sadd(final String key, Set<T> valueSet) {
         String wholeKey = getKey(key);
         try {
-            SetOperations operations = redisTemplate.opsForSet();
+            SetOperations operations = redisTemplateFrist.opsForSet();
             Object[] valueArray = valueSet.toArray(new Object[valueSet.size()]);
             operations.add(wholeKey, valueArray);
             return true;
@@ -115,7 +115,7 @@ public class RedisUtils<T> {
     public Boolean sadd(final String key, T value) {
         String wholeKey = getKey(key);
         try {
-            SetOperations<String, T> operations = redisTemplate.opsForSet();
+            SetOperations<String, T> operations = redisTemplateFrist.opsForSet();
             operations.add(wholeKey, value);
             return true;
         } catch (Exception e) {
@@ -132,7 +132,7 @@ public class RedisUtils<T> {
      */
     public Boolean smember(final String key, T value) {
         String wholeKey = getKey(key);
-        SetOperations<String, T> operations = redisTemplate.opsForSet();
+        SetOperations<String, T> operations = redisTemplateFrist.opsForSet();
         return operations.isMember(wholeKey, value);
     }
 
@@ -144,7 +144,7 @@ public class RedisUtils<T> {
      */
     public Set<T> smembers(final String key) {
         String wholeKey = getKey(key);
-        SetOperations<String, T> operations = redisTemplate.opsForSet();
+        SetOperations<String, T> operations = redisTemplateFrist.opsForSet();
         return operations.members(wholeKey);
     }
 
@@ -157,7 +157,7 @@ public class RedisUtils<T> {
     public Boolean expire(final String key, Long seconds) {
         String wholeKey = getKey(key);
         try {
-            BoundValueOperations boundValueOperations = redisTemplate
+            BoundValueOperations boundValueOperations = redisTemplateFrist
                     .boundValueOps(wholeKey);
             boundValueOperations.expire(seconds, TimeUnit.SECONDS);
             return true;
@@ -176,7 +176,7 @@ public class RedisUtils<T> {
     public Boolean pexpire(final String key, Long milliseconds) {
         String wholeKey = getKey(key);
         try {
-            BoundValueOperations boundValueOperations = redisTemplate
+            BoundValueOperations boundValueOperations = redisTemplateFrist
                     .boundValueOps(wholeKey);
             boundValueOperations.expire(milliseconds, TimeUnit.MILLISECONDS);
             return true;
@@ -194,7 +194,7 @@ public class RedisUtils<T> {
     public void delete(final String key) {
         String wholeKey = getKey(key);
         try {
-            redisTemplate.delete(wholeKey);
+            redisTemplateFrist.delete(wholeKey);
         } catch (Exception e) {
             log.error("RedisUtil delete key:{} failure::{}", wholeKey, ExceptionUtils.getFullStackTrace(e));
         }
@@ -205,7 +205,7 @@ public class RedisUtils<T> {
      * @param keys key list
      */
 //    public Long delete(final List<String> keys) {
-//        return redisTemplate.delete(keys);
+//        return redisTemplateFrist.delete(keys);
 //    }
 
     /**
@@ -221,9 +221,9 @@ public class RedisUtils<T> {
         }
         String wholeKey = getKey(key);
         try {
-            Object execute = redisTemplate.execute(
+            Object execute = redisTemplateFrist.execute(
                     (RedisCallback) redisConnection -> {
-                        RedisSerializer stringSerializer = redisTemplate
+                        RedisSerializer stringSerializer = redisTemplateFrist
                                 .getKeySerializer();
                         Object rlt = redisConnection.execute(
                                 "SET", stringSerializer.serialize(wholeKey),
@@ -253,7 +253,7 @@ public class RedisUtils<T> {
     public void releaseLock(final String key) {
         String wholeKey = getKey(key);
         try {
-            redisTemplate.delete(wholeKey);
+            redisTemplateFrist.delete(wholeKey);
         } catch (Exception e) {
             log.error("RedisUtil release Lock:{} failure::{}", wholeKey, ExceptionUtils.getFullStackTrace(e));
         }
@@ -267,7 +267,7 @@ public class RedisUtils<T> {
     public boolean checkLock(final String key) {
         String wholeKey = getKey(key);
         try {
-            return redisTemplate.hasKey(wholeKey);
+            return redisTemplateFrist.hasKey(wholeKey);
         } catch (Exception e) {
             log.error("RedisUtil check Lock:{} failure::{}", wholeKey, ExceptionUtils.getFullStackTrace(e));
             return false;

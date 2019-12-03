@@ -32,8 +32,8 @@ public class RedisClusterConfig {
         return jedisPoolConfig;
     }
 
-    @Bean(name = "redisClusterConfiguration")
-    public RedisClusterConfiguration getRedisClusterConfiguration() {
+    @Bean(name = "redisClusterConfigurationFirst")
+    public RedisClusterConfiguration getRedisClusterConfigurationFirst() {
         RedisClusterConfiguration redisClusterConfiguration = new RedisClusterConfiguration();
         redisClusterConfiguration.setMaxRedirects(3);
         Set<RedisNode> redisClusterNodeSet = new HashSet<>();
@@ -44,15 +44,40 @@ public class RedisClusterConfig {
         return redisClusterConfiguration;
     }
 
-    @Bean(name = "jeidsConnectionFactory")
-    public JedisConnectionFactory getJedisConnectionFactory() {
-        return new JedisConnectionFactory(getRedisClusterConfiguration(), getJedisPoolConfig());
+    @Bean(name = "redisClusterConfigurationSecond")
+    public RedisClusterConfiguration getRedisClusterConfigurationSecond() {
+        RedisClusterConfiguration redisClusterConfiguration = new RedisClusterConfiguration();
+        redisClusterConfiguration.setMaxRedirects(3);
+        Set<RedisNode> redisClusterNodeSet = new HashSet<>();
+        redisClusterNodeSet.add(new RedisClusterNode("redis-cluster", 7000));
+        redisClusterNodeSet.add(new RedisClusterNode("redis-cluster", 7001));
+        redisClusterNodeSet.add(new RedisClusterNode("redis-cluster", 7002));
+        redisClusterConfiguration.setClusterNodes(redisClusterNodeSet);
+        return redisClusterConfiguration;
     }
 
-    @Bean(name = "redisTemplate")
-    public RedisTemplate getRedisTemplate() {
+    @Bean(name = "jeidsConnectionFactoryFirst")
+    public JedisConnectionFactory getJedisConnectionFactoryFirst() {
+        return new JedisConnectionFactory(getRedisClusterConfigurationFirst(), getJedisPoolConfig());
+    }
+
+    @Bean(name = "jeidsConnectionFactorySecond")
+    public JedisConnectionFactory getJedisConnectionFactorySecond() {
+        return new JedisConnectionFactory(getRedisClusterConfigurationSecond(), getJedisPoolConfig());
+    }
+
+    @Bean(name = "redisTemplateFrist")
+    public RedisTemplate getRedisTemplateFirst() {
         RedisTemplate redisTemplate = new RedisTemplate();
-        redisTemplate.setConnectionFactory(getJedisConnectionFactory());
+        redisTemplate.setConnectionFactory(getJedisConnectionFactoryFirst());
+        setSerializer(redisTemplate);
+        return redisTemplate;
+    }
+
+    @Bean(name = "redisTemplateSecond")
+    public RedisTemplate getRedisTemplateSecond() {
+        RedisTemplate redisTemplate = new RedisTemplate();
+        redisTemplate.setConnectionFactory(getJedisConnectionFactorySecond());
         setSerializer(redisTemplate);
         return redisTemplate;
     }
