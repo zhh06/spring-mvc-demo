@@ -14,8 +14,8 @@ public class RedisController {
 
     private RedisUtils<String> redisUtilsSecond;
 
-    public void setRedisUtils(RedisUtils<String> redisUtils) {
-        this.redisUtilsFirst = redisUtils;
+    public void setRedisUtilsFirst(RedisUtils<String> redisUtilsFirst) {
+        this.redisUtilsFirst = redisUtilsFirst;
     }
 
     public RedisUtils<String> getRedisUtilsFirst() {

@@ -37,15 +37,71 @@
         </property>
     </bean>
 
-    <bean id="jeidsConnectionFactory"
+    <!-- RedisCluster ymath-redis-cluster -->
+    <bean id="redisClusterConfiguration2"
+          class="org.springframework.data.redis.connection.RedisClusterConfiguration">
+        <property name="maxRedirects" value="3"/>
+        <!-- 节点配置 -->
+        <property name="clusterNodes">
+            <set>
+                <bean class="org.springframework.data.redis.connection.RedisClusterNode">
+                    <constructor-arg name="host" value="redis-cluster"/>
+                    <constructor-arg name="port" value="7000"/>
+                </bean>
+                <bean class="org.springframework.data.redis.connection.RedisClusterNode">
+                    <constructor-arg name="host" value="redis-cluster"/>
+                    <constructor-arg name="port" value="7001"/>
+                </bean>
+                <bean class="org.springframework.data.redis.connection.RedisClusterNode">
+                    <constructor-arg name="host" value="redis-cluster"/>
+                    <constructor-arg name="port" value="7002"/>
+                </bean>
+            </set>
+        </property>
+    </bean>
+
+    <bean id="jeidsConnectionFactory1"
           class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
-        <constructor-arg ref="redisClusterConfiguration" />
+        <constructor-arg ref="redisClusterConfiguration1" />
         <constructor-arg ref="jedisPoolConfig" />
     </bean>
 
-    <!-- redis 访问的模版 -->
-    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
-        <property name="connectionFactory" ref="jeidsConnectionFactory" />
+    <bean id="jeidsConnectionFactory2"
+          class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <constructor-arg ref="redisClusterConfiguration2" />
+        <constructor-arg ref="jedisPoolConfig" />
+    </bean>
+
+    <bean id="redisTemplate1" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="jeidsConnectionFactory1" />
+        <property name="keySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+        </property>
+        <property name="hashKeySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+        </property>
+        <property name="valueSerializer">
+            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer" />
+        </property>
+        <property name="hashValueSerializer">
+            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer" />
+        </property>
+    </bean>
+
+    <bean id="redisTemplate2" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="jeidsConnectionFactory2" />
+        <property name="keySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+        </property>
+        <property name="hashKeySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+        </property>
+        <property name="hashValueSerializer">
+            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer" />
+        </property>
+        <property name="valueSerializer">
+            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer" />
+        </property>
     </bean>
 
 </beans>

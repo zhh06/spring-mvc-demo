@@ -20,6 +20,10 @@ public class RedisUtils<T> {
 
     private RedisTemplate<String, T> redisTemplate;
 
+    public void setRedisTemplate(RedisTemplate<String, T> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
+
     /**
      * 读取缓存
      *

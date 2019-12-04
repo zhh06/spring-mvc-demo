@@ -1,12 +1,23 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:context="http://www.springframework.org/schema/context"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-    http://www.springframework.org/schema/context
-    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <import resource="context/redis-context.xml"/>
+
+    <bean id="redisUtilsFirst" class="com.demo.utils.RedisUtils">
+        <property name="redisTemplate" ref="redisTemplate1" />
+    </bean>
+
+    <bean id="redisUtilsSecond" class="com.demo.utils.RedisUtils">
+        <property name="redisTemplate" ref="redisTemplate2" />
+    </bean>
 
     <bean id="helloController" class="com.demo.controller.HelloController" />
-    <bean id="redisController" class="com.demo.controller.RedisController" />
+    <bean id="redisController" class="com.demo.controller.RedisController">
+        <property name="redisUtilsFirst" ref="redisUtilsFirst" />
+        <property name="redisUtilsSecond" ref="redisUtilsSecond" />
+    </bean>
 
 </beans>
