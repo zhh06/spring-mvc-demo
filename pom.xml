@@ -40,12 +40,22 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-redis</artifactId>
             <version>1.8.23.RELEASE</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jredis</groupId>
+                    <artifactId>jredis-core-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jredis</groupId>
+                    <artifactId>jredis-core-ri</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-            <version>2.9.3</version>
+            <version>2.10.2</version>
         </dependency>
 
         <dependency>
