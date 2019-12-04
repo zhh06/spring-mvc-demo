@@ -4,20 +4,18 @@
             http://www.springframework.org/schema/beans
             http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <import resource="context/redis-context.xml"/>
+<!--    <bean id="redisUtilsFirst" class="com.demo.utils.RedisUtils">-->
+<!--        <property name="redisTemplate" ref="redisTemplate1" />-->
+<!--    </bean>-->
 
-    <bean id="redisUtilsFirst" class="com.demo.utils.RedisUtils">
-        <property name="redisTemplate" ref="redisTemplate1" />
-    </bean>
-
-    <bean id="redisUtilsSecond" class="com.demo.utils.RedisUtils">
-        <property name="redisTemplate" ref="redisTemplate2" />
-    </bean>
+<!--    <bean id="redisUtilsSecond" class="com.demo.utils.RedisUtils">-->
+<!--        <property name="redisTemplate" ref="redisTemplate2" />-->
+<!--    </bean>-->
 
     <bean id="helloController" class="com.demo.controller.HelloController" />
-    <bean id="redisController" class="com.demo.controller.RedisController">
-        <property name="redisUtilsFirst" ref="redisUtilsFirst" />
-        <property name="redisUtilsSecond" ref="redisUtilsSecond" />
-    </bean>
+<!--    <bean id="redisController" class="com.demo.controller.RedisController">-->
+<!--        <property name="redisUtilsFirst" ref="redisUtilsFirst" />-->
+<!--        <property name="redisUtilsSecond" ref="redisUtilsSecond" />-->
+<!--    </bean>-->
 
 </beans>
