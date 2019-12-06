@@ -1,5 +1,6 @@
 package com.demo.controller;
 
+import com.demo.config.redis.RedisContext;
 import com.demo.utils.RedisUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,25 +11,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/redis")
 public class RedisController {
 
-    private RedisUtils<String> redisUtilsFirst;
+    private RedisUtils<String> redisUtilsFirst = RedisContext.getInstance().getRedisUtils("redisUtils1");
 
-    private RedisUtils<String> redisUtilsSecond;
-
-    public void setRedisUtilsFirst(RedisUtils<String> redisUtilsFirst) {
-        this.redisUtilsFirst = redisUtilsFirst;
-    }
-
-    public RedisUtils<String> getRedisUtilsFirst() {
-        return this.redisUtilsFirst;
-    }
-
-    public void setRedisUtilsSecond(RedisUtils<String> redisUtilsSecond) {
-        this.redisUtilsSecond = redisUtilsSecond;
-    }
-
-    public RedisUtils<String> getRedisUtilsSecond() {
-        return this.redisUtilsSecond;
-    }
+    private RedisUtils<String> redisUtilsSecond = RedisContext.getInstance().getRedisUtils("redisUtils2");
 
     @RequestMapping(value = "/set1")
     @ResponseBody

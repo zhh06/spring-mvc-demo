@@ -3,13 +3,13 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
-        <property name="maxIdle" value="100" />
-        <property name="maxTotal" value="600" />
-        <property name="maxWaitMillis" value="10000" />
-        <property name="testOnBorrow" value="true" />
-        <property name="testOnReturn" value="true" />
-    </bean>
+<!--    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">-->
+<!--        <property name="maxIdle" value="100" />-->
+<!--        <property name="maxTotal" value="600" />-->
+<!--        <property name="maxWaitMillis" value="10000" />-->
+<!--        <property name="testOnBorrow" value="true" />-->
+<!--        <property name="testOnReturn" value="true" />-->
+<!--    </bean>-->
 
     <!-- RedisCluster ymath-redis-cluster -->
     <bean id="redisClusterConfiguration1"
@@ -99,6 +99,14 @@
         <property name="valueSerializer">
             <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer" />
         </property>
+    </bean>
+
+    <bean id="redisUtils1" class="com.demo.utils.RedisUtils">
+        <property name="redisTemplate" ref="redisTemplate1" />
+    </bean>
+
+    <bean id="redisUtils2" class="com.demo.utils.RedisUtils">
+        <property name="redisTemplate" ref="redisTemplate2" />
     </bean>
 
 </beans>
