@@ -14,10 +14,10 @@ import javax.annotation.Resource;
 public class RedisController {
 
     @Resource
-    private RedisUtilsFirst<String> redisUtilsFirst;
+    private RedisUtilsFirst<byte[]> redisUtilsFirst;
 
     @Resource
-    private RedisUtilsSecond<String> redisUtilsSecond;
+    private RedisUtilsSecond<byte[]> redisUtilsSecond;
 
     @RequestMapping(value = "/set1")
     @ResponseBody
@@ -26,7 +26,17 @@ public class RedisController {
             @RequestParam(value = "value") String value
     ) {
         System.out.println("key: " + key + ", value: " + value);
-        return String.valueOf(redisUtilsFirst.set(key, value));
+        return String.valueOf(redisUtilsFirst.set(key, value.getBytes()));
+    }
+
+    @RequestMapping(value = "/get1")
+    @ResponseBody
+    public String get1(
+            @RequestParam(value = "key") String key,
+            @RequestParam(value = "value") String value
+    ) {
+        System.out.println("key: " + key + ", value: " + value);
+        return redisUtilsFirst.get(key).toString();
     }
 
     @RequestMapping(value = "/set2")
@@ -36,7 +46,17 @@ public class RedisController {
             @RequestParam(value = "value") String value
     ) {
         System.out.println("key: " + key + ", value: " + value);
-        return String.valueOf(redisUtilsSecond.set(key, value));
+        return String.valueOf(redisUtilsSecond.set(key, value.getBytes()));
+    }
+
+    @RequestMapping(value = "/get2")
+    @ResponseBody
+    public String get2(
+            @RequestParam(value = "key") String key
+    ) {
+        System.out.println("get2 key: " + key);
+        Object value = redisUtilsSecond.get(key);
+        return new String((byte[])value);
     }
 
 }
