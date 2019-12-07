@@ -66,7 +66,7 @@ public class RedisClusterConfig {
         return new JedisConnectionFactory(getRedisClusterConfigurationSecond(), getJedisPoolConfig());
     }
 
-    @Bean(name = "redisTemplateFrist")
+    @Bean(name = "redisTemplateFirst")
     public RedisTemplate getRedisTemplateFirst() {
         RedisTemplate redisTemplate = new RedisTemplate();
         redisTemplate.setConnectionFactory(getJedisConnectionFactoryFirst());
@@ -90,8 +90,8 @@ public class RedisClusterConfig {
         om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
         jackson2JsonRedisSerializer.setObjectMapper(om);
 
-        template.setValueSerializer(jackson2JsonRedisSerializer);
-        template.setHashValueSerializer(jackson2JsonRedisSerializer);
+//        template.setValueSerializer(jackson2JsonRedisSerializer);
+//        template.setHashValueSerializer(jackson2JsonRedisSerializer);
         template.setKeySerializer(new StringRedisSerializer());
         template.setHashKeySerializer(new StringRedisSerializer());
     }

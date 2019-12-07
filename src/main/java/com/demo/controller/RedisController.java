@@ -1,7 +1,6 @@
 package com.demo.controller;
 
-import com.demo.utils.RedisUtilsFirst;
-import com.demo.utils.RedisUtilsSecond;
+import com.demo.utils.RedisUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,10 +13,10 @@ import javax.annotation.Resource;
 public class RedisController {
 
     @Resource
-    private RedisUtilsFirst<byte[]> redisUtilsFirst;
+    private RedisUtils<byte[]> redisUtilsFirst;
 
     @Resource
-    private RedisUtilsSecond<byte[]> redisUtilsSecond;
+    private RedisUtils<byte[]> redisUtilsSecond;
 
     @RequestMapping(value = "/set1")
     @ResponseBody
